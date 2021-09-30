@@ -1,6 +1,8 @@
 FROM ubuntu:14.04
-
-WORKDIR /root
+USER hadoop
+WORKDIR /hadoop
+RUN chown -R hadoop:hadoop /tmp && \
+    chown -R hadoop:hadoop /usr
 
 # install openssh-server, openjdk and wget
 RUN apt-get update && apt-get install -y openssh-server openjdk-7-jdk wget
