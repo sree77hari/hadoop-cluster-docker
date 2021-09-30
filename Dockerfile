@@ -1,7 +1,10 @@
 FROM ubuntu:14.04
 
 USER root
-WORKDIR /root
+RUN chown hadoop:hadoop / 
+
+USER hadoop
+WORKDIR /home/hadoop
 
 # install openssh-server, openjdk and wget
 RUN apt-get update && apt-get install -y openssh-server openjdk-7-jdk wget
@@ -27,7 +30,7 @@ RUN mkdir -p ~/hdfs/namenode && \
     mkdir -p ~/hdfs/datanode && \
     mkdir $HADOOP_HOME/logs
 RUN touch ~/.ssh/config
-COPY config/* /tmp/
+
 RUN ls /tmp
 RUN cp /tmp/ssh_config ~/.ssh/config && \
     cp /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
