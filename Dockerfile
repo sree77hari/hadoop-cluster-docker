@@ -1,8 +1,6 @@
 FROM ubuntu:14.04
-USER hadoop
-WORKDIR /hadoop
-RUN chown -R hadoop:hadoop /tmp && \
-    chown -R hadoop:hadoop /usr
+USER root
+WORKDIR /root
 
 # install openssh-server, openjdk and wget
 RUN apt-get update && apt-get install -y openssh-server openjdk-7-jdk wget
@@ -27,18 +25,18 @@ CMD ssh-keygen -q -t rsa -N '' && \
 RUN mkdir -p ~/hdfs/namenode && \ 
     mkdir -p ~/hdfs/datanode && \
     mkdir $HADOOP_HOME/logs
-RUN touch ~/.ssh/config
 
+COPY config/* /tmp/
 RUN ls /tmp
-RUN cp /tmp/ssh_config ~/.ssh/config && \
-    cp /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
-    cp /tmp/hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml && \ 
-    cp /tmp/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml && \
-    cp /tmp/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml && \
-    cp /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
-    cp /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
-    cp /tmp/start-hadoop.sh ~/start-hadoop.sh && \
-    cp /tmp/run-wordcount.sh ~/run-wordcount.sh
+COPY /tmp/ssh_config ~/.ssh/config && \
+     /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+     /tmp/hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml && \ 
+     /tmp/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml && \
+     /tmp/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml && \
+     /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
+     /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
+     /tmp/start-hadoop.sh ~/start-hadoop.sh && \
+     /tmp/run-wordcount.sh ~/run-wordcount.sh
 
 RUN chmod +x ~/start-hadoop.sh && \
     chmod +x ~/run-wordcount.sh && \
