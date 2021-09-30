@@ -26,7 +26,7 @@ CMD ssh-keygen -q -t rsa -N '' && \
 RUN mkdir -p ~/hdfs/namenode && \ 
     mkdir -p ~/hdfs/datanode && \
     mkdir $HADOOP_HOME/logs
-
+RUN touch ~/.ssh/config
 COPY config/* /tmp/
 RUN ls /tmp
 RUN cp /tmp/ssh_config ~/.ssh/config && \
