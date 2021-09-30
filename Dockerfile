@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-
+USER root
 WORKDIR /root
 
 # install openssh-server, openjdk and wget
